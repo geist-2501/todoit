@@ -1,13 +1,13 @@
 <script lang="ts">
     import ToDoRow from "../lib/components/ToDoRow.svelte";
+    import {toDoStore} from "../lib/store";
     import type {ToDo} from "../lib/model/todo";
     
-    const dummyToDo: ToDo = {
-        id: '123',
-        description: 'This is a To Do task',
-        priority: "low",
-        done: false
-    }
+    let incompleteToDos: ToDo[];
+    let completeToDos: ToDo[];
+    $:incompleteToDos = $toDoStore.filter(x => !x.done);
+    $:completeToDos = $toDoStore.filter(x => x.done);
+    
 </script>
 
 <section class="header">
@@ -18,9 +18,13 @@
 </section>
 <section class="container">
     <h1>To Do</h1>
-    <ToDoRow toDo="{dummyToDo}" />
+    {#each incompleteToDos as toDo}
+        <ToDoRow toDo="{toDo}" />
+    {/each}
     <h1>Done</h1>
-    <ToDoRow toDo="{dummyToDo}" />
+    {#each completeToDos as toDo}
+        <ToDoRow toDo="{toDo}" />
+    {/each}
 </section>
 
 <style>
