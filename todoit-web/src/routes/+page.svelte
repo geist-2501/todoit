@@ -8,7 +8,7 @@
     onMount(async () => {
         const todos = await todoSvc.getAll();
         toDoStore.set(todos);
-    })
+    });
     
     let incompleteToDos: ToDo[];
     let completeToDos: ToDo[];
@@ -27,10 +27,16 @@
     {#each incompleteToDos as toDo}
         <ToDoRow toDo="{toDo}" />
     {/each}
+    {#if incompleteToDos.length === 0}
+        <p>Empty</p>
+    {/if}
     <h1>Done</h1>
     {#each completeToDos as toDo}
         <ToDoRow toDo="{toDo}" />
     {/each}
+    {#if completeToDos.length === 0}
+        <p>Empty</p>
+    {/if}
 </section>
 
 <style>
