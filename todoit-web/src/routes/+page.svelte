@@ -1,13 +1,19 @@
 <script lang="ts">
     import ToDoRow from "../lib/components/ToDoRow.svelte";
-    import {toDoStore} from "../lib/store";
-    import type {ToDo} from "../lib/model/todo";
+    import {toDoStore} from "$lib/store";
+    import type {ToDo} from "$lib/model/todo";
+    import {onMount} from "svelte";
+    import {todoSvc} from "$lib/service/todo-svc";
+    
+    onMount(async () => {
+        const todos = await todoSvc.getAll();
+        toDoStore.set(todos);
+    })
     
     let incompleteToDos: ToDo[];
     let completeToDos: ToDo[];
     $:incompleteToDos = $toDoStore.filter(x => !x.done);
     $:completeToDos = $toDoStore.filter(x => x.done);
-    
 </script>
 
 <section class="header">
