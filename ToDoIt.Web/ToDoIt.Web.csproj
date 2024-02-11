@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\_app\env.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\assets\0.RQC2JgOV.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\assets\2.FokxAfhD.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\assets\_layout.RQC2JgOV.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\assets\_page.FokxAfhD.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\chunks\entry.JFULbnU7.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\chunks\index.9xi_FUgZ.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\chunks\index.csgkOFXi.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\chunks\scheduler.kAlY8CUs.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\entry\app.vWfpO0yQ.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\entry\start.s_Zo9ZxD.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\nodes\0.eyn8J_BP.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\nodes\1.w3wDw-wY.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\immutable\nodes\2.-5iTZTQo.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\_app\version.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
+
+</Project>
