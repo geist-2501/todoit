@@ -1,4 +1,12 @@
+using ToDoIt.Server.Database;
+using ToDoIt.Server.Database.Api;
+using ToDoIt.Server.Stores;
+using ToDoIt.Server.Stores.Api;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<ICommandExecutor, PostgresCommandExecutor>();
+builder.Services.AddSingleton<IToDoStore, PostgresToDoStore>();
 
 // Add services to the container.
 
