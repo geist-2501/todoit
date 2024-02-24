@@ -5,14 +5,9 @@ namespace ToDoIt.Server.Database;
 
 public class PostgresCommandExecutor : ICommandExecutor
 {
-    private const string ConnectionUrl = "Host=localhost;Username=bx_admin;Password=nojXGZDdTeTuj3ZrcYYE"; // TODO (BC) replace.
+    private const string c_ConnectionUrl = "Host=localhost;Username=bx_admin;Password=nojXGZDdTeTuj3ZrcYYE"; // TODO (BC) replace.
 
-    private readonly NpgsqlDataSource m_NpgsqlDataSource;
-
-    public PostgresCommandExecutor()
-    {
-        m_NpgsqlDataSource = NpgsqlDataSource.Create(ConnectionUrl);
-    }
+    private readonly NpgsqlDataSource m_NpgsqlDataSource = NpgsqlDataSource.Create(c_ConnectionUrl);
 
     public async Task Execute(Func<NpgsqlCommand, Task> command)
     {

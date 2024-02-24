@@ -1,7 +1,7 @@
 ﻿namespace ToDoIt.Server.Models;
 
 public record ToDo(
-    string Id,
+    Guid Id,
     string Description,
     Priority Priority,
     bool Done
