@@ -9,6 +9,16 @@ const getJson = async <T>(url: string): Promise<T> => {
     return response.json();
 }
 
+const postJson = async <TReq, TRet>(url: string, body?: TReq): Promise<TRet> => {
+    const response = await fetch(backendUrl + url, {
+        method: 'POST',
+        body: JSON.stringify(body)
+    });
+    
+    return await response.json(); 
+}
+
 export const xhr = {
-    getJson: getJson 
+    getJson: getJson,
+    postJson: postJson
 }
