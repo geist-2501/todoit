@@ -4,11 +4,14 @@
     import type {ToDo} from "$lib/model/todo";
     import {onMount} from "svelte";
     import {todoSvc} from "$lib/service/todo-svc";
+    import Modal from "$lib/components/Modal.svelte";
     
     onMount(async () => {
         const todos = await todoSvc.getAll();
         toDoStore.set(todos);
     });
+    
+    let showModal = false;
     
     let incompleteToDos: ToDo[];
     let completeToDos: ToDo[];
@@ -38,6 +41,11 @@
         <p>Empty</p>
     {/if}
 </section>
+<button on:click={() => (showModal = true)}> show modal </button>
+<Modal bind:showModal>
+    <h2 slot="header">Test</h2>
+    <p>More tests</p>
+</Modal>
 
 <style>
     .header {
