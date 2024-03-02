@@ -11,7 +11,7 @@
         toDoStore.set(todos);
     });
     
-    let showModal = false;
+    let viewToDoModalOpen = false;
     
     let incompleteToDos: ToDo[];
     let completeToDos: ToDo[];
@@ -41,10 +41,8 @@
         <p>Empty</p>
     {/if}
 </section>
-<button on:click={() => (showModal = true)}> show modal </button>
-<Modal bind:showModal>
-    <h2 slot="header">Test</h2>
-    <p>More tests</p>
+<Modal bind:showModal={viewToDoModalOpen}>
+    
 </Modal>
 
 <style>
