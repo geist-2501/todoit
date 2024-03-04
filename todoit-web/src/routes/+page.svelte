@@ -5,7 +5,8 @@
     import {onMount} from "svelte";
     import {todoSvc} from "$lib/service/todo-svc";
     import Modal from "$lib/components/Modal.svelte";
-    
+    import ToDoCreator from "$lib/components/ToDoCreator.svelte";
+
     onMount(async () => {
         const todos = await todoSvc.getAll();
         toDoStore.set(todos);
@@ -17,7 +18,11 @@
     $:selectedToDo = $toDoStore.find(x => x.id === selectedToDoId) ?? null;
     const handleOnClickToDo = () => {
         viewToDoModalOpen = true;
-    }
+    };
+    
+    const handleCreateToDo = (description: string) => {
+        alert(description);
+    };
     
     let incompleteToDos: ToDo[];
     let completeToDos: ToDo[];
@@ -32,6 +37,7 @@
     </div>
 </section>
 <section class="container">
+    <ToDoCreator onClickAdd="{handleCreateToDo}" />
     <h1>To Do</h1>
     {#each incompleteToDos as toDo}
         <ToDoRow toDo="{toDo}" onClickRow="{handleOnClickToDo}" />
