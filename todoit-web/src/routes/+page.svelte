@@ -12,6 +12,12 @@
     });
     
     let viewToDoModalOpen = false;
+    let selectedToDoId: string | null = null;
+    let selectedToDo: ToDo | null = null;
+    $:selectedToDo = $toDoStore.find(x => x.id === selectedToDoId) ?? null;
+    const handleOnClickToDo = () => {
+        viewToDoModalOpen = true;
+    }
     
     let incompleteToDos: ToDo[];
     let completeToDos: ToDo[];
@@ -28,21 +34,28 @@
 <section class="container">
     <h1>To Do</h1>
     {#each incompleteToDos as toDo}
-        <ToDoRow toDo="{toDo}" />
+        <ToDoRow toDo="{toDo}" onClickRow="{handleOnClickToDo}" />
     {/each}
     {#if incompleteToDos.length === 0}
         <p>Empty</p>
     {/if}
     <h1>Done</h1>
     {#each completeToDos as toDo}
-        <ToDoRow toDo="{toDo}" />
+        <ToDoRow toDo="{toDo}" onClickRow="{handleOnClickToDo}" />
     {/each}
     {#if completeToDos.length === 0}
         <p>Empty</p>
     {/if}
 </section>
 <Modal bind:showModal={viewToDoModalOpen}>
-    
+    {#if selectedToDo == null}
+        <p>No item selected</p>
+        <p>This is probably an internal error</p>
+    {:else }
+        <p>{selectedToDo.description}</p>
+        <hr />
+        <p>ToDo input field</p>
+    {/if}
 </Modal>
 
 <style>
