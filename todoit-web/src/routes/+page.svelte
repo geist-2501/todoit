@@ -20,8 +20,10 @@
         viewToDoModalOpen = true;
     };
     
-    const handleCreateToDo = (description: string) => {
-        alert(description);
+    const handleCreateToDo = async (description: string) => {
+        await todoSvc.create({Description: description, Priority: "medium"});
+        const todos = await todoSvc.getAll();
+        toDoStore.set(todos);
     };
     
     let incompleteToDos: ToDo[];
