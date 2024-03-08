@@ -25,7 +25,7 @@ public class ToDoController : ControllerBase
     [HttpPost, Route("api/tasks")]
     public async Task<IActionResult> NewToDo([FromBody] CreateToDoRequest request)
     {
-        var newToDo = new ToDo(Guid.NewGuid(), request.Description, request.Priority, request.Done);
+        var newToDo = new ToDo(Guid.NewGuid(), request.Description, request.Priority, false);
         await m_ToDoStore.SaveToDo(newToDo);
         return Ok(JsonHelper.Serialize(newToDo));
     }

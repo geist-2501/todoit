@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ToDoIt.Server.Database;
 using ToDoIt.Server.Database.Api;
 using ToDoIt.Server.Stores;
@@ -25,6 +26,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 

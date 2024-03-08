@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ToDoIt.Server.Models;
+﻿using ToDoIt.Server.Models;
 
 namespace ToDoIt.Server.Controllers;
 
-public record CreateToDoRequest(
-    [Required(AllowEmptyStrings = false)] string Description,
-    [Required] Priority Priority,
-    [Required] bool Done
-);  
+public class CreateToDoRequest
+{
+    public string Description { get; set; }
+    public Priority Priority { get; set; }
+}  

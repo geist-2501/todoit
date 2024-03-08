@@ -47,7 +47,12 @@ public class PostgresToDoStore : IToDoStore
 
             cmd.Parameters.Add(new NpgsqlParameter("id_param", toDo.Id));
             cmd.Parameters.Add(new NpgsqlParameter("description_param", toDo.Description));
-            cmd.Parameters.Add(new NpgsqlParameter("priority_param", toDo.Priority));
+            cmd.Parameters.Add(new NpgsqlParameter
+            {
+                ParameterName = "priority_param",
+                DataTypeName = "priority_enum",
+                Value = toDo.Priority.ToString()
+            });
             cmd.Parameters.Add(new NpgsqlParameter("done_param", toDo.Done));
 
             await cmd.ExecuteNonQueryAsync();
