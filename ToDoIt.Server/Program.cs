@@ -1,50 +1,71 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.HttpLogging;
+using Serilog;
 using ToDoIt.Server.Database;
 using ToDoIt.Server.Database.Api;
 using ToDoIt.Server.Stores;
 using ToDoIt.Server.Stores.Api;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
 
-builder.Services.AddSingleton<IDatabaseCommandExecutor, PostgresDatabaseCommandExecutor>();
-builder.Services.AddSingleton<IToDoStore, PostgresToDoStore>();
-
-// Add services to the container.
-
-builder.Services.AddCors(options =>
+try
 {
-    options.AddDefaultPolicy(policy =>
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddSingleton<IDatabaseCommandExecutor, PostgresDatabaseCommandExecutor>();
+    builder.Services.AddSingleton<IToDoStore, PostgresToDoStore>();
+
+    builder.Host.UseSerilog();
+
+    // Add services to the container.
+
+    builder.Services.AddCors(options =>
     {
-        policy.WithOrigins("http://localhost:5173"); // TODO (BC) Replace with actual config value
-        policy.AllowAnyHeader();
-        policy.AllowAnyMethod();
-        policy.AllowCredentials();
+        options.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins("http://localhost:5173"); // TODO (BC) Replace with actual config value
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+            policy.AllowCredentials();
+        });
     });
-});
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    builder.Services.AddControllers();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers().AddJsonOptions(x =>
-{
-    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
+    builder.Services.AddControllers().AddJsonOptions(x =>
+    {
+        x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
-var app = builder.Build();
+    var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+    
+    app.UseCors();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.UseHttpLogging();
+
+    app.Run();
 }
-
-app.UseCors();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
