@@ -3,28 +3,30 @@ using ToDoIt.Server.Database.Api;
 
 namespace ToDoIt.Server.Database;
 
-public class PostgresCommandExecutor : ICommandExecutor
+public class PostgresDatabaseCommandExecutor : IDatabaseCommandExecutor
 {
     private const string c_ConnectionUrl = "Host=localhost;Username=bx_admin;Password=nojXGZDdTeTuj3ZrcYYE;Database=todoit;"; // TODO (BC) replace.
 
     private readonly NpgsqlDataSource m_NpgsqlDataSource = NpgsqlDataSource.Create(c_ConnectionUrl);
 
-    public async Task Execute(Func<NpgsqlCommand, Task> command)
+    public async Task Execute(Func<IDatabaseCommand, Task> command)
     {
         await using var connection = m_NpgsqlDataSource.CreateConnection();
         await connection.OpenAsync();
         await using var cmd = connection.CreateCommand();
+        var databaseCommand = new PostgresDatabaseCommand(cmd);
         
-        await command(cmd);
+        await command(databaseCommand);
     }
 
-    public async Task<T> Execute<T>(Func<NpgsqlCommand, Task<T>> command)
+    public async Task<T> Execute<T>(Func<IDatabaseCommand, Task<T>> command)
     {
         await using var connection = m_NpgsqlDataSource.CreateConnection();
         await connection.OpenAsync();
         await using var cmd = connection.CreateCommand();
-        
-        return await command(cmd);
+        var databaseCommand = new PostgresDatabaseCommand(cmd);
+
+        return await command(databaseCommand);
     }
 
     public void Dispose()

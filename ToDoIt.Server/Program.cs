@@ -6,7 +6,7 @@ using ToDoIt.Server.Stores.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ICommandExecutor, PostgresCommandExecutor>();
+builder.Services.AddSingleton<IDatabaseCommandExecutor, PostgresDatabaseCommandExecutor>();
 builder.Services.AddSingleton<IToDoStore, PostgresToDoStore>();
 
 // Add services to the container.

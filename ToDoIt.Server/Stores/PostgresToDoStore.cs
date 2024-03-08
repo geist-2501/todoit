@@ -7,9 +7,9 @@ namespace ToDoIt.Server.Stores;
 
 public class PostgresToDoStore : IToDoStore
 {
-    private readonly ICommandExecutor m_Executor;
+    private readonly IDatabaseCommandExecutor m_Executor;
 
-    public PostgresToDoStore(ICommandExecutor executor)
+    public PostgresToDoStore(IDatabaseCommandExecutor executor)
     {
         m_Executor = executor;
     }
@@ -20,15 +20,16 @@ public class PostgresToDoStore : IToDoStore
         {
             cmd.CommandText = "SELECT id, description, priority, done FROM todos;";
 
-            var reader = await cmd.ExecuteReaderAsync();
+            var reader = await cmd.ExecuteQuery();
 
             var toDos = new List<ToDo>();
-            while (await reader.ReadAsync())
+            while (await reader.Read())
             {
-                var id = reader.GetGuid(0);
-                var description = reader.GetString(1);
-                var priority = Enum.Parse<Priority>(reader.GetString(2));
-                var done = reader.GetBoolean(3);
+                var id = reader.GetGuid("id");
+                var description = reader.Get<string>("description");
+                var priority = reader.GetEnum<Priority>("priority");
+                var done = reader.Get<bool>("done");
+                
                 toDos.Add(new ToDo(id, description, priority, done));
             }
 
@@ -45,17 +46,12 @@ public class PostgresToDoStore : IToDoStore
                               VALUES (@id_param, @description_param, @priority_param, @done_param)
                               """;
 
-            cmd.Parameters.Add(new NpgsqlParameter("id_param", toDo.Id));
-            cmd.Parameters.Add(new NpgsqlParameter("description_param", toDo.Description));
-            cmd.Parameters.Add(new NpgsqlParameter
-            {
-                ParameterName = "priority_param",
-                DataTypeName = "priority_enum",
-                Value = toDo.Priority.ToString()
-            });
-            cmd.Parameters.Add(new NpgsqlParameter("done_param", toDo.Done));
+            cmd.AddParam("id_param", toDo.Id);
+            cmd.AddParam("description_param", toDo.Description);
+            cmd.AddEnumParam("priority_param", toDo.Priority, "priority_enum");
+            cmd.AddParam("done_param", toDo.Done);
 
-            await cmd.ExecuteNonQueryAsync();
+            await cmd.ExecuteNonQuery();
         });
     }
 }
