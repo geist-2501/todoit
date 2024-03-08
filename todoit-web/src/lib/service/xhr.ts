@@ -12,6 +12,9 @@ const getJson = async <T>(url: string): Promise<T> => {
 const postJson = async <TReq, TRet>(url: string, body?: TReq): Promise<TRet> => {
     const response = await fetch(backendUrl + url, {
         method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
         body: JSON.stringify(body)
     });
     
