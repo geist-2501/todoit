@@ -1,12 +1,15 @@
-﻿using Npgsql;
-using ToDoIt.Server.Database.Api;
+﻿using ToDoIt.Server.Database.Api;
+using ToDoIt.Server.Logging;
 using ToDoIt.Server.Models;
 using ToDoIt.Server.Stores.Api;
+using ILogger = Serilog.ILogger;
 
 namespace ToDoIt.Server.Stores;
 
 public class PostgresToDoStore : IToDoStore
 {
+    private readonly ILogger m_Logger = LogManager.GetLogger(nameof(PostgresToDoStore));
+    
     private readonly IDatabaseCommandExecutor m_Executor;
 
     public PostgresToDoStore(IDatabaseCommandExecutor executor)
@@ -16,6 +19,7 @@ public class PostgresToDoStore : IToDoStore
 
     public async Task<IEnumerable<ToDo>> GetToDos()
     {
+        m_Logger.Information("Foo");
         return await m_Executor.Execute(async cmd =>
         {
             cmd.CommandText = "SELECT id, description, priority, done FROM todos;";

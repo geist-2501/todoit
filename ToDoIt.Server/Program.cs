@@ -4,6 +4,7 @@ using Serilog;
 using Serilog.Events;
 using ToDoIt.Server.Database;
 using ToDoIt.Server.Database.Api;
+using ToDoIt.Server.Logging;
 using ToDoIt.Server.Stores;
 using ToDoIt.Server.Stores.Api;
 
@@ -11,7 +12,7 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
     .Enrich.FromLogContext()
-    .WriteTo.Console()
+    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{CorrelationId}] [{Source}] {Message:lj}{NewLine}{Exception}")
     .CreateLogger();
 
 try
@@ -57,6 +58,7 @@ try
     }
 
     app.UseSerilogRequestLogging();
+    app.UseRequestLogContext();
     
     app.UseCors();
 
