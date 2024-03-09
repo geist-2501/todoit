@@ -1,10 +1,11 @@
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.HttpLogging;
 using Serilog;
 using Serilog.Events;
 using ToDoIt.Server.Database;
 using ToDoIt.Server.Database.Api;
 using ToDoIt.Server.Logging;
+using ToDoIt.Server.Services;
+using ToDoIt.Server.Services.Api;
 using ToDoIt.Server.Stores;
 using ToDoIt.Server.Stores.Api;
 
@@ -23,6 +24,7 @@ try
 
     builder.Services.AddSingleton<IDatabaseCommandExecutor, PostgresDatabaseCommandExecutor>();
     builder.Services.AddSingleton<IToDoStore, PostgresToDoStore>();
+    builder.Services.AddSingleton<IToDoService, ToDoService>();
 
     builder.Host.UseSerilog();
 

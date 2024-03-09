@@ -10,5 +10,6 @@ public interface IDatabaseCommand
     public void AddParam<T>(string paramName, T? paramValue);
     public void AddEnumParam<T>(string paramName, T enumValue, string pgEnumName) where T : struct;
     public Task<int> ExecuteNonQuery();
+    public Task<T> ExecuteSingleQuery<T>(Func<IDatabaseReader, T> extractor);
     public Task<IDatabaseReader> ExecuteQuery();
 }

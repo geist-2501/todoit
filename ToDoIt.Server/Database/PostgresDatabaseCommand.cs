@@ -45,6 +45,24 @@ public class PostgresDatabaseCommand : IDatabaseCommand
         return m_Command.ExecuteNonQueryAsync();
     }
 
+    public async Task<T> ExecuteSingleQuery<T>(Func<IDatabaseReader, T> extractor)
+    {
+        var reader = await ExecuteQuery();
+        if (!await reader.Read())
+        {
+            throw new DatabaseCommandException("Expected exactly one result, received none");
+        }
+
+        var result = extractor(reader);
+        
+        if (await reader.Read())
+        {
+            throw new DatabaseCommandException("Expected exactly one result, received multiple");
+        }
+
+        return result;
+    }
+
     public async Task<IDatabaseReader> ExecuteQuery()
     {
         var reader = await m_Command.ExecuteReaderAsync();
