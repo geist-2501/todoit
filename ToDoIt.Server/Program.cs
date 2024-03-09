@@ -1,17 +1,23 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
 using Serilog;
+using Serilog.Events;
 using ToDoIt.Server.Database;
 using ToDoIt.Server.Database.Api;
 using ToDoIt.Server.Stores;
 using ToDoIt.Server.Stores.Api;
 
 Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
+    .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
 
 try
 {
+    Log.Information("Startin' this hoe");
+    
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddSingleton<IDatabaseCommandExecutor, PostgresDatabaseCommandExecutor>();
@@ -32,7 +38,6 @@ try
         });
     });
 
-    builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -50,6 +55,8 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseSerilogRequestLogging();
     
     app.UseCors();
 
