@@ -4,8 +4,9 @@
     import type {ToDo} from "$lib/model/todo";
     import {onMount} from "svelte";
     import {todoSvc} from "$lib/service/todo-svc";
-    import Modal from "$lib/components/Modal.svelte";
     import ToDoCreator from "$lib/components/ToDoCreator.svelte";
+    import ToDoModal from "$lib/components/ToDoModal.svelte";
+    import {prioritiesSortOrder} from "../lib/model/todo";
 
     onMount(async () => {
         const todos = await todoSvc.getAll();
@@ -13,11 +14,11 @@
     });
     
     let viewToDoModalOpen = false;
-    let selectedToDoId: string | null = null;
     let selectedToDo: ToDo | null = null;
-    $:selectedToDo = $toDoStore.find(x => x.id === selectedToDoId) ?? null;
-    const handleOnClickToDo = () => {
+    
+    const handleOnClickToDo = (toDo: ToDo) => {
         viewToDoModalOpen = true;
+        selectedToDo = toDo;
     };
     
     const handleCreateToDo = async (description: string) => {
@@ -28,7 +29,7 @@
     
     let incompleteToDos: ToDo[];
     let completeToDos: ToDo[];
-    $:incompleteToDos = $toDoStore.filter(x => !x.done);
+    $:incompleteToDos = $toDoStore.filter(x => !x.done).toSorted(x => -prioritiesSortOrder[x.priority]);
     $:completeToDos = $toDoStore.filter(x => x.done);
 </script>
 
@@ -55,16 +56,8 @@
         <p>Empty</p>
     {/if}
 </section>
-<Modal bind:showModal={viewToDoModalOpen}>
-    {#if selectedToDo == null}
-        <p>No item selected</p>
-        <p>This is probably an internal error</p>
-    {:else }
-        <p>{selectedToDo.description}</p>
-        <hr />
-        <p>ToDo input field</p>
-    {/if}
-</Modal>
+
+<ToDoModal bind:modalOpen={viewToDoModalOpen} selectedToDo={selectedToDo} />
 
 <style>
     .header {

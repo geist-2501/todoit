@@ -25,3 +25,16 @@
         {/if}
     </div>
 </dialog>
+
+<style>
+    dialog {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        position: absolute;
+        border: var(--border-stroke) solid var(--col-secondary);
+        border-radius: var(--border-radius);
+    }
+</style>
