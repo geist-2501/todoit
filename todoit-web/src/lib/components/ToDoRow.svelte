@@ -1,15 +1,18 @@
 ﻿<script lang="ts">
     import type {ToDo} from "../model/todo";
     import {onEnter} from "$lib/a11y";
+    import TaskIcon from "$lib/components/TaskIcon.svelte";
+    import Priority from "$lib/components/Priority.svelte";
 
     export let toDo: ToDo;
-    export let onClickRow: (toDoId: string) => void;
+    export let onClickRow: (toDo: ToDo) => void;
     
-    const handleOpenToDo = () => onClickRow(toDo.id);
+    const handleOpenToDo = () => onClickRow(toDo);
 </script>
 
 <div class="wrapper" role="button" tabindex="0" on:keydown={onEnter(handleOpenToDo)} on:click={handleOpenToDo}>
-    <div class="task-icon"></div>
+    <TaskIcon />
+    <Priority priority={toDo.priority} />
     <p class="description">{toDo.description}</p>
 </div>
 
@@ -21,13 +24,7 @@
         gap: 10px;
         border-radius: 5px;
         border: 1px solid var(--col-secondary);
-    }
-    
-    .task-icon {
-        width: 12px;
-        height: 12px;
-        border: 1px solid var(--col-secondary);
-        border-radius: 6px;
+        margin-bottom: 5px;
     }
     
     .description {

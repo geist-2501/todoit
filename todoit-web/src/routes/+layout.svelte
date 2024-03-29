@@ -8,6 +8,9 @@
         --col-foreground: #212121;
         --col-primary: #377BFF;
         --col-secondary: #BABABA;
+        --col-priority-low: #80D688;
+        --col-priority-medium: #E0B156;
+        --col-priority-high: #D5555C;
         --border-radius: 5px;
         --border-stroke: 2px;
         
