@@ -11,4 +11,4 @@ export const iconList: IconList = {
     }
 }
 
-export type Icon = keyof typeof iconList;
+export type IconName = keyof typeof iconList;

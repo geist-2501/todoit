@@ -1,11 +1,10 @@
 ﻿<script lang="ts">
-    import type {Icon} from "../icon-definition";
+    import type {IconName} from "../icon-definition";
     import {iconList} from "../icon-definition";
 
-    export let iconName: Icon;
+    export let iconName: IconName;
     
-    let selected;
-    $: selected = iconList[iconName];
+    let selected = iconList[iconName];
 </script>
 
 <span class="icon" aria-label={selected.alt}>{selected.symbol}</span>

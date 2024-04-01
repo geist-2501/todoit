@@ -21,8 +21,14 @@
         selectedToDo = toDo;
     };
     
+    const handleOnClickDone = async (toDo: ToDo) => {
+        await todoSvc.markAsDone(toDo.id);
+        const todos = await todoSvc.getAll();
+        toDoStore.set(todos);
+    }
+    
     const handleCreateToDo = async (description: string) => {
-        await todoSvc.create({Description: description, Priority: "medium"});
+        await todoSvc.create({Description: description, Priority: "Medium"});
         const todos = await todoSvc.getAll();
         toDoStore.set(todos);
     };
@@ -43,7 +49,7 @@
     <ToDoCreator onClickAdd="{handleCreateToDo}" />
     <h1>To Do</h1>
     {#each incompleteToDos as toDo}
-        <ToDoRow toDo="{toDo}" onClickRow="{handleOnClickToDo}" />
+        <ToDoRow toDo="{toDo}" onClickRow="{handleOnClickToDo}" onClickDone={handleOnClickDone} />
     {/each}
     {#if incompleteToDos.length === 0}
         <p>Empty</p>

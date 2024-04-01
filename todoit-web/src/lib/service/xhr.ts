@@ -21,7 +21,20 @@ const postJson = async <TReq, TRet>(url: string, body?: TReq): Promise<TRet> => 
     return await response.json(); 
 }
 
+const putJson = async <TReq, TRet>(url: string, body?: TReq): Promise<TRet> => {
+    const response = await fetch(backendUrl + url, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body)
+    });
+
+    return await response.json();
+}
+
 export const xhr = {
     getJson: getJson,
-    postJson: postJson
+    postJson: postJson,
+    putJson: putJson
 }

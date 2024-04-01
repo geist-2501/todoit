@@ -9,5 +9,7 @@ export interface CreateToDoRequest {
 
 export const todoSvc = {
     getAll: () => xhr.getJson<ToDo[]>("/api/tasks"),
-    create: (createRequest: CreateToDoRequest) => xhr.postJson("/api/tasks", createRequest)
+    create: (createRequest: CreateToDoRequest) => xhr.postJson("/api/tasks", createRequest),
+    update: (toDo: ToDo) => xhr.putJson("/api/tasks", toDo),
+    markAsDone: (id: string) => xhr.putJson(`/api/tasks/${id}/done`),
 };

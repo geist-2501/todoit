@@ -6,12 +6,13 @@
 
     export let toDo: ToDo;
     export let onClickRow: (toDo: ToDo) => void;
+    export let onClickDone: (toDo: ToDo) => void = () => {};
     
     const handleOpenToDo = () => onClickRow(toDo);
 </script>
 
 <div class="wrapper" role="button" tabindex="0" on:keydown={onEnter(handleOpenToDo)} on:click={handleOpenToDo}>
-    <TaskIcon />
+    <TaskIcon onClick={() => onClickDone(toDo)}/>
     <Priority priority={toDo.priority} />
     <p class="description">{toDo.description}</p>
 </div>
