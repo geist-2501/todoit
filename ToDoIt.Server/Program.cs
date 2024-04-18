@@ -67,9 +67,7 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
-
-    app.UseHttpLogging();
-
+    
     app.Run();
 }
 catch (Exception ex)
