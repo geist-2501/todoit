@@ -3,6 +3,7 @@
   <component name="UserContentModel">
     <attachedFolders>
       <Path>db</Path>
+      <Path>http-client</Path>
       <Path>todoit-web</Path>
     </attachedFolders>
     <explicitIncludes />

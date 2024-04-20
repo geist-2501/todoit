@@ -1,0 +1,8 @@
+﻿###
+POST https://localhost:7218/login?useCookies=true HTTP/2
+Content-Type: application/json
+
+{
+  "email": "blaironbute@gmail.com",
+  "password": "Password123#"
+}
