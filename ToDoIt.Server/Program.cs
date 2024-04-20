@@ -1,9 +1,11 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 using Serilog.Events;
 using ToDoIt.Server.Database;
 using ToDoIt.Server.Database.Api;
 using ToDoIt.Server.Logging;
+using ToDoIt.Server.Models;
 using ToDoIt.Server.Services;
 using ToDoIt.Server.Services.Api;
 using ToDoIt.Server.Stores;
@@ -41,6 +43,8 @@ try
         });
     });
 
+    builder.Services.AddIdentityApiEndpoints<ToDoItUser>().AddUserStore<ToDoItUserStore>();
+
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -64,7 +68,8 @@ try
     
     app.UseCors();
 
-    app.UseAuthorization();
+    app.UseAuthentication();
+    app.MapIdentityApi<ToDoItUser>();
 
     app.MapControllers();
     
