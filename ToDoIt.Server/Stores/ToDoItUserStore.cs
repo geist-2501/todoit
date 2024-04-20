@@ -73,6 +73,8 @@ public class ToDoItUserStore(IDatabaseCommandExecutor commandExecutor) : IUserEm
     {
         return await commandExecutor.Execute(async cmd =>
         {
+            var userGuid = Guid.Parse(userId);
+            cmd.AddParam("@id", userGuid);
             cmd.CommandText = "SELECT id, username, email, password_hash, email_confirmed FROM users WHERE id = @id;";
             var reader = await cmd.ExecuteQuery();
 
