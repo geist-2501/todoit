@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Identity;
 using Serilog;
 using Serilog.Events;
 using ToDoIt.Server.Database;
