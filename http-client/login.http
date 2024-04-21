@@ -6,3 +6,9 @@ Content-Type: application/json
   "email": "blaironbute@gmail.com",
   "password": "Password123#"
 }
+
+### Info
+GET https://localhost:7218/manage/info HTTP/2
+
+### Test endpoint
+GET https://localhost:7218/foo HTTP/2

@@ -42,6 +42,7 @@ try
         });
     });
 
+    // Even though we aren't using role based access or claims, we need authorisation as this enables the basic access/no-access.
     builder.Services.AddAuthorization();
     builder.Services.AddIdentityApiEndpoints<ToDoItUser>().AddUserStore<ToDoItUserStore>();
     
